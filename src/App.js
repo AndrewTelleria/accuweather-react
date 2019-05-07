@@ -46,6 +46,7 @@ class CityWeatherForecast extends React.Component {
         axios.get('http://dataservice.accuweather.com/currentconditions/v1/' + this.state.locationKey + '?apikey=VfTtp5Nq6BKfZ5X0E6WmAA11XTRer97z',
         )
         .then((response) => {
+          console.log(response.data[0]);
           this.setState({
             currentWeather: response.data[0],
             currentLoaded: true
@@ -105,19 +106,6 @@ class CityWeatherForecast extends React.Component {
   }
 
   render() {
-    // return (
-    //     <div className="main">
-    //       <CitySearchBar
-    //         search={this.state.search}
-    //         onCitySearchSubmit={this.handleCitySearchSubmit}
-    //         onCitySearch={this.handleCitySearch} />
-    //       <CityWeatherCard
-    //         city={this.state.city}
-    //         forecast={this.props.forecast}
-    //         weather={this.props.weather} />
-    //     </div>
-    //     )
-
     const { error, firstSearch, locationLoaded, currentLoaded, forecastLoaded, city, search  } = this.state;
     if (error) {
       return (
