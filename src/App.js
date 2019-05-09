@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import CitySearchBar from './components/CitySearchBar';
 import CityWeatherCard from './components/CityWeatherCard';
+import API_KEY from './apiKey';
 
 const axios = require('axios');
 
@@ -30,7 +31,7 @@ class CityWeatherForecast extends React.Component {
   }
 
   getWeather() {
-    axios.get('http://dataservice.accuweather.com/locations/v1/cities/search?apikey=VfTtp5Nq6BKfZ5X0E6WmAA11XTRer97z&q=' + escape(this.state.search)
+    axios.get('http://dataservice.accuweather.com/locations/v1/cities/search?apikey=' + API_KEY + '&q=' + escape(this.state.search)
       )
       .then(
         (response) => {
@@ -43,7 +44,7 @@ class CityWeatherForecast extends React.Component {
             firstSearch: true
           });
 
-        axios.get('http://dataservice.accuweather.com/currentconditions/v1/' + this.state.locationKey + '?apikey=VfTtp5Nq6BKfZ5X0E6WmAA11XTRer97z',
+        axios.get('http://dataservice.accuweather.com/currentconditions/v1/' + this.state.locationKey + '?apikey=' + API_KEY,
         )
         .then((response) => {
           console.log(response.data[0]);
@@ -58,7 +59,7 @@ class CityWeatherForecast extends React.Component {
           });
         });
 
-        axios.get('http://dataservice.accuweather.com/forecasts/v1/daily/5day/' + this.state.locationKey + '?apikey=VfTtp5Nq6BKfZ5X0E6WmAA11XTRer97z&metric=' + this.state.metric
+        axios.get('http://dataservice.accuweather.com/forecasts/v1/daily/5day/' + this.state.locationKey + '?apikey=' + API_KEY + '&metric=' + this.state.metric
         )
         .then((response) => {
           this.setState({
@@ -74,7 +75,6 @@ class CityWeatherForecast extends React.Component {
 
       })
       .catch((error) => {
-        console.log(error);
         this.setState({
           error: error,
         });
@@ -115,7 +115,7 @@ class CityWeatherForecast extends React.Component {
             onUnitChange={this.handleUnitChange}
             onCitySearchSubmit={this.handleCitySearchSubmit}
             onCitySearch={this.handleCitySearch} />
-          <h3>Could not find the city you searched for :(</h3>
+          <h3>Sorry there was an error :(</h3>
         </div>
       )
     } else if (!firstSearch) {
@@ -126,7 +126,7 @@ class CityWeatherForecast extends React.Component {
             onUnitChange={this.handleUnitChange}
             onCitySearchSubmit={this.handleCitySearchSubmit}
             onCitySearch={this.handleCitySearch} />
-          <h3>What to know the weather for the next five days? Search a city to find out.</h3>
+          <h3>Search for the current and forecasted weather conditions for a city</h3>
         </div>
       )
     } else if (!locationLoaded || !currentLoaded || !forecastLoaded) {
